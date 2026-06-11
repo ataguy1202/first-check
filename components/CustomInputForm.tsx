@@ -22,6 +22,8 @@ const DEFAULTS: Intake = {
   emergencyFund: 0,
   annualExpenses: 12_000,
   hasW2WithMatch: false,
+  dependents: 0,
+  riskPreference: "auto",
 };
 
 /**
