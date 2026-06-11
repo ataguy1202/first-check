@@ -1,0 +1,142 @@
+@import "tailwindcss";
+
+:root {
+  /* Athletic editorial palette — near-black + signature green-gold */
+  --bg: 0 0% 4%;
+  --bg-2: 0 0% 7%;
+  --surface: 0 0% 9%;
+  --border: 0 0% 14%;
+  --border-strong: 0 0% 22%;
+  --fg: 0 0% 98%;
+  --fg-muted: 0 0% 64%;
+  --fg-dim: 0 0% 38%;
+  --signal: 88 80% 60%;       /* signature electric green */
+  --signal-soft: 88 80% 10%;
+  --gold: 38 92% 60%;
+  --danger: 0 84% 65%;
+  --grad-from: 88 80% 60%;
+  --grad-to: 38 92% 60%;
+}
+
+@theme inline {
+  --color-bg: hsl(var(--bg));
+  --color-bg-2: hsl(var(--bg-2));
+  --color-surface: hsl(var(--surface));
+  --color-border: hsl(var(--border));
+  --color-border-strong: hsl(var(--border-strong));
+  --color-fg: hsl(var(--fg));
+  --color-fg-muted: hsl(var(--fg-muted));
+  --color-fg-dim: hsl(var(--fg-dim));
+  --color-signal: hsl(var(--signal));
+  --color-signal-soft: hsl(var(--signal-soft));
+  --color-gold: hsl(var(--gold));
+  --color-danger: hsl(var(--danger));
+
+  --font-display: ui-sans-serif, "Inter Display", "Inter", -apple-system, "Segoe UI", system-ui, sans-serif;
+  --font-sans: ui-sans-serif, "Inter", -apple-system, "Segoe UI", system-ui, sans-serif;
+  --font-mono: "Berkeley Mono", "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --font-serif: ui-serif, "Iowan Old Style", Georgia, serif;
+}
+
+* { border-color: hsl(var(--border)); }
+
+html { background: hsl(var(--bg)); color-scheme: dark; }
+
+body {
+  background: hsl(var(--bg));
+  color: hsl(var(--fg));
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.011em;
+}
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  font-feature-settings: "ss01", "ss03";
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+.num {
+  font-variant-numeric: tabular-nums slashed-zero;
+  font-feature-settings: "tnum", "zero";
+}
+
+.signal-text {
+  background: linear-gradient(135deg, hsl(var(--grad-from)) 0%, hsl(var(--grad-to)) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.mesh-bg {
+  background-image:
+    radial-gradient(circle 700px at 90% -10%, hsl(var(--signal) / 0.10), transparent 60%),
+    radial-gradient(circle 600px at -10% 60%, hsl(var(--gold) / 0.05), transparent 60%);
+}
+
+.grain::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: hsl(var(--border-strong)); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: hsl(var(--fg-dim)); }
+
+/* Aceternity spotlight fade-in */
+@keyframes spotlight {
+  0% { opacity: 0; transform: translate(-72%, -62%) scale(0.5); }
+  100% { opacity: 1; transform: translate(-50%, -40%) scale(1); }
+}
+.animate-spotlight {
+  animation: spotlight 2s ease 0.4s 1 forwards;
+  transform: translate(-72%, -62%) scale(0.5);
+  opacity: 0;
+}
+
+/* Gradient text shimmer for the hero headline */
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.animate-gradient {
+  animation: gradient-shift 5s ease infinite;
+}
+
+/* Print styles for the plan PDF */
+@media print {
+  html, body { background: white !important; color: black !important; color-scheme: light; }
+  .grain::before, .mesh-bg { display: none !important; background: none !important; }
+  body * { visibility: hidden; }
+  #first-check-plan, #first-check-plan * {
+    visibility: visible !important;
+    color: black !important;
+  }
+  #first-check-plan {
+    position: absolute !important;
+    inset: 0;
+    width: 100% !important;
+    background: white !important;
+    border: 0 !important;
+  }
+  #first-check-plan .signal-text {
+    background: none !important;
+    -webkit-text-fill-color: black !important;
+    color: black !important;
+  }
+}
